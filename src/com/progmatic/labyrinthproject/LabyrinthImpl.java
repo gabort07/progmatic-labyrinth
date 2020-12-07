@@ -8,9 +8,9 @@ import com.progmatic.labyrinthproject.interfaces.Labyrinth;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * @author pappgergely
@@ -18,10 +18,13 @@ import java.util.Scanner;
 public class LabyrinthImpl implements Labyrinth {
 
     CellType[][] lField;
+    private Stack<Coordinate> playerMoves = new Stack<>();
+    private Coordinate position;
 
-    public LabyrinthImpl() {
-
+    public Stack<Coordinate> getPlayerMoves() {
+        return playerMoves;
     }
+
 
     @Override
     public int getWidth() {
@@ -59,6 +62,7 @@ public class LabyrinthImpl implements Labyrinth {
                             break;
                         case 'S':
                             type = CellType.START;
+                            playerMoves.push(new Coordinate(ww, hh));
                             break;
                         case ' ':
                             type = CellType.EMPTY;
@@ -73,7 +77,7 @@ public class LabyrinthImpl implements Labyrinth {
 
     @Override
     public CellType getCellType(Coordinate c) throws CellException {
-        if (c.getCol() < 0 || c.getRow() < 0 || c.getRow() > getHeight()-1 || c.getCol() > getWidth()-1) {
+        if (c.getCol() < 0 || c.getRow() < 0 || c.getRow() > getHeight() - 1 || c.getCol() > getWidth() - 1) {
             throw new CellException(c, "A kordináta kívûl esik a labirintuson");
         }
         return this.lField[c.getRow()][c.getCol()];
@@ -86,30 +90,61 @@ public class LabyrinthImpl implements Labyrinth {
 
     @Override
     public void setCellType(Coordinate c, CellType type) throws CellException {
-        if (c.getCol() < 0 || c.getRow() < 0 || c.getRow() > getHeight() || c.getCol() > getWidth()) {
+        if (c.getCol() < 0 || c.getRow() < 0 || c.getRow() > getHeight() - 1 || c.getCol() > getWidth() - 1) {
             throw new CellException(c, "A kordináta kívûl esik a labirintuson");
+        }
+        if(type.equals(CellType.START)){
+            playerMoves.push(c);
         }
         lField[c.getRow()][c.getCol()] = type;
     }
 
     @Override
     public Coordinate getPlayerPosition() {
-        return null;
+        return playerMoves.peek();
     }
+        @Override
+        public boolean hasPlayerFinished () {
+            CellType a = lField[getPlayerPosition().getRow()][getPlayerPosition().getCol()];
+            return a.equals(CellType.END);
+        }
 
-    @Override
-    public boolean hasPlayerFinished() {
-        return false;
+        @Override
+        public List<Direction> possibleMoves () {
+            return null;
+        }
+
+        @Override
+        public void movePlayer (Direction direction) throws InvalidMoveException {
+            Coordinate newMove;
+            Coordinate lastMove = playerMoves.peek();
+            switch (direction) {
+                case NORTH:
+                    newMove = new Coordinate(lastMove.getCol(), lastMove.getRow() + 1);
+                    if (newMove.getRow() > getHeight() - 1) {
+                        throw new InvalidMoveException();
+                    } else
+                        playerMoves.push(newMove);
+                case SOUTH:
+                    newMove = new Coordinate(lastMove.getCol(), lastMove.getRow() - 1);
+                    if (newMove.getRow() < getHeight() - 1) {
+                        throw new InvalidMoveException();
+                    } else
+                        playerMoves.push(newMove);
+                case EAST:
+                    newMove = new Coordinate(lastMove.getCol() + 1, lastMove.getRow());
+                    if (newMove.getCol() > this.getWidth() - 1) {
+                        throw new InvalidMoveException();
+                    } else
+                        playerMoves.push(newMove);
+                case WEST:
+                    newMove = new Coordinate(lastMove.getCol() - 1, lastMove.getRow());
+                    if (newMove.getCol() < this.getWidth() - 1) {
+                        throw new InvalidMoveException();
+                    } else
+                        playerMoves.push(newMove);
+            }
+
+        }
+
     }
-
-    @Override
-    public List<Direction> possibleMoves() {
-        return null;
-    }
-
-    @Override
-    public void movePlayer(Direction direction) throws InvalidMoveException {
-
-    }
-
-}

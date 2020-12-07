@@ -229,12 +229,12 @@ public class LabyrinthTest {
             {"#", "#", "#", "#", "#"}};
         Labyrinth lSample = fromString(lArr);
         Labyrinth l = getLabyrinthImpl();
-        l.loadLabyrinthFile("labyrinth1.txt");
+        l.loadLabyrinthFile("progmatic-labyrinth/labyrinth1.txt");
         assertSameLabyrinth(l, lSample);
         assertEquals(new Coordinate(0, 1), l.getPlayerPosition());
         
         l = getLabyrinthImpl();
-        l.loadLabyrinthFile("labyrinth2.txt");
+        l.loadLabyrinthFile("progmatic-labyrinth/labyrinth2.txt");
         assertEquals(new Coordinate(0, 1), l.getPlayerPosition());
     }
     
@@ -256,7 +256,7 @@ public class LabyrinthTest {
         assertEquals(l.getCellType(l.getPlayerPosition()), CellType.END);
         
         Labyrinth l2 = getLabyrinthImpl();
-        l2.loadLabyrinthFile("labyrinth2.txt");
+        l2.loadLabyrinthFile("progmatic-labyrinth/labyrinth2.txt");
         while (! l2.hasPlayerFinished()) {
             Direction d = rp.nextMove(l2);
             l2.movePlayer( d );
@@ -282,7 +282,7 @@ public class LabyrinthTest {
         assertEquals(true, l.hasPlayerFinished());
         assertEquals(l.getCellType(l.getPlayerPosition()), CellType.END);
         
-        String[] files = {"labyrinth2.txt", "labyrinth3.txt"};
+        String[] files = {"progmatic-labyrinth/labyrinth2.txt", "progmatic-labyrinth/labyrinth3.txt"};
         for (String file : files) {
             l = getLabyrinthImpl();
             l.loadLabyrinthFile(file);
@@ -299,7 +299,7 @@ public class LabyrinthTest {
     public void testConsciousPlayer() throws Exception {
         Player cp = getConsciousPlayerImpl();
         
-        String[] files = {"labyrinth1.txt", "labyrinth2.txt", "labyrinth3.txt"};
+        String[] files = {"progmatic-labyrinth/labyrinth1.txt", "progmatic-labyrinth/labyrinth2.txt", "progmatic-labyrinth/labyrinth3.txt"};
         for (String file : files) {
             Labyrinth l = getLabyrinthImpl();
             l.loadLabyrinthFile(file);

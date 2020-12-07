@@ -73,6 +73,9 @@ public class LabyrinthImpl implements Labyrinth {
 
     @Override
     public CellType getCellType(Coordinate c) throws CellException {
+        if (c.getCol() < 0 || c.getRow() < 0 || c.getRow() > getHeight()-1 || c.getCol() > getWidth()-1) {
+            throw new CellException(c, "A kordináta kívûl esik a labirintuson");
+        }
         return this.lField[c.getRow()][c.getCol()];
     }
 

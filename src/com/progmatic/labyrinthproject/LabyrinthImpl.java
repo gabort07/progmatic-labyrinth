@@ -8,6 +8,7 @@ import com.progmatic.labyrinthproject.interfaces.Labyrinth;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
@@ -112,7 +113,22 @@ public class LabyrinthImpl implements Labyrinth {
 
     @Override
     public List<Direction> possibleMoves() {
-        return null;
+       List<Direction>  directions = new ArrayList<>();
+        for (Direction d: Direction.values()) {
+            if(playerMoves.get(0).)
+        }
+
+    }
+
+    public boolean isWall(Direction d){
+        Coordinate actual = playerMoves.peek();
+
+    }
+
+    public Coordinate fromDirection(Direction direction){
+        switch (direction){
+            case NORTH ->
+        }
     }
 
     @Override

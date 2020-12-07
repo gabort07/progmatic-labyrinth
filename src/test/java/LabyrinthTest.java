@@ -1,10 +1,11 @@
-/*
+package test.java;/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 import com.progmatic.labyrinthproject.Coordinate;
+import com.progmatic.labyrinthproject.LabyrinthImpl;
 import com.progmatic.labyrinthproject.enums.CellType;
 import com.progmatic.labyrinthproject.enums.Direction;
 import com.progmatic.labyrinthproject.exceptions.CellException;
@@ -382,7 +383,7 @@ public class LabyrinthTest {
     
     // TODO
     private Labyrinth getLabyrinthImpl() {
-        return null;
+        return new LabyrinthImpl();
     }
     
     // TODO

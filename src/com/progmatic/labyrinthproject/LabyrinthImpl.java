@@ -93,7 +93,7 @@ public class LabyrinthImpl implements Labyrinth {
         if (c.getCol() < 0 || c.getRow() < 0 || c.getRow() > getHeight() - 1 || c.getCol() > getWidth() - 1) {
             throw new CellException(c, "A kordináta kívûl esik a labirintuson");
         }
-        if(type.equals(CellType.START)){
+        if (type.equals(CellType.START)) {
             playerMoves.push(c);
         }
         lField[c.getRow()][c.getCol()] = type;
@@ -103,48 +103,54 @@ public class LabyrinthImpl implements Labyrinth {
     public Coordinate getPlayerPosition() {
         return playerMoves.peek();
     }
-        @Override
-        public boolean hasPlayerFinished () {
-            CellType a = lField[getPlayerPosition().getRow()][getPlayerPosition().getCol()];
-            return a.equals(CellType.END);
+
+    @Override
+    public boolean hasPlayerFinished() {
+        CellType a = lField[getPlayerPosition().getRow()][getPlayerPosition().getCol()];
+        return a.equals(CellType.END);
+    }
+
+    @Override
+    public List<Direction> possibleMoves() {
+        return null;
+    }
+
+    @Override
+    public void movePlayer(Direction direction) throws InvalidMoveException {
+        Coordinate newMove;
+        Coordinate lastMove = playerMoves.peek();
+        switch (direction) {
+            case NORTH:
+                if (lastMove.getRow() - 1 < 0) {
+                    throw new InvalidMoveException();
+                } else {
+                    playerMoves.push(new Coordinate(lastMove.getCol(), lastMove.getRow() - 1));
+                }
+                break;
+            case SOUTH:
+                if (lastMove.getRow() + 1 > getHeight() - 1) {
+                    throw new InvalidMoveException();
+                } else {
+                    playerMoves.push(new Coordinate(lastMove.getCol(), lastMove.getRow() + 1));
+                }
+                break;
+            case EAST:
+                if (lastMove.getCol() + 1 > getWidth() - 1) {
+                    throw new InvalidMoveException();
+                } else {
+                    playerMoves.push(new Coordinate(lastMove.getCol() + 1, lastMove.getRow()));
+                }
+                break;
+            case WEST:
+                if (lastMove.getCol() - 1 < 0) {
+                    throw new InvalidMoveException();
+                } else {
+                    playerMoves.push(new Coordinate(lastMove.getCol() - 1, lastMove.getRow()));
+                }
+                break;
         }
 
-        @Override
-        public List<Direction> possibleMoves () {
-            return null;
-        }
-
-        @Override
-        public void movePlayer (Direction direction) throws InvalidMoveException {
-            Coordinate newMove;
-            Coordinate lastMove = playerMoves.peek();
-            switch (direction) {
-                case NORTH:
-                    newMove = new Coordinate(lastMove.getCol(), lastMove.getRow() + 1);
-                    if (newMove.getRow() > getHeight() - 1) {
-                        throw new InvalidMoveException();
-                    } else
-                        playerMoves.push(newMove);
-                case SOUTH:
-                    newMove = new Coordinate(lastMove.getCol(), lastMove.getRow() - 1);
-                    if (newMove.getRow() < getHeight() - 1) {
-                        throw new InvalidMoveException();
-                    } else
-                        playerMoves.push(newMove);
-                case EAST:
-                    newMove = new Coordinate(lastMove.getCol() + 1, lastMove.getRow());
-                    if (newMove.getCol() > this.getWidth() - 1) {
-                        throw new InvalidMoveException();
-                    } else
-                        playerMoves.push(newMove);
-                case WEST:
-                    newMove = new Coordinate(lastMove.getCol() - 1, lastMove.getRow());
-                    if (newMove.getCol() < this.getWidth() - 1) {
-                        throw new InvalidMoveException();
-                    } else
-                        playerMoves.push(newMove);
-            }
-
-        }
 
     }
+
+}
